@@ -216,9 +216,8 @@ particlesJS("particles-js", {
 });
 
 async function getUsers() {
-  const res = await fetch("https://raw.githubusercontent.com/lrzozz256/awikwok/refs/heads/main/users.json");
-  const data = await res.json();
-  return data;
+  const res = await fetch("https://raw.githubusercontent.com/XyzzMoods/Data-Base-Account/refs/heads/main/users.json");
+  return await res.json();
 }
 
 function logout() {
@@ -268,17 +267,22 @@ async function login() {
   const pass = document.getElementById("password").value.trim();
   const result = document.getElementById("login-result");
 
-  const data = await getUsers();
-  const userList = data.users || data; // fleksibel: bisa array atau object.users
+  try {
+    const data = await getUsers();              // ambil JSON dari raw GitHub
+    const users = data.users || [];             // ambil array users
+    const found = users.find(u => u.username === user && u.password === pass);
 
-  const found = userList.find(u => u.username === user && u.password === pass);
-
-  if (found) {
-    saveSession(found);
-    showDashboard(found);
-    result.innerText = "";
-  } else {
-    result.innerText = "❌ Username atau Password salah!";
+    if (found) {
+      saveSession(found);                       // simpan ke cookie
+      showDashboard(found);                     // tampilkan dashboard
+      result.innerText = "";
+    } else {
+      result.innerText = "❌ Username atau Password salah!";
+      result.style.color = "crimson";
+    }
+  } catch (err) {
+    console.error(err);
+    result.innerText = "❌ Gagal login (cek koneksi atau database)!";
     result.style.color = "crimson";
   }
 }
