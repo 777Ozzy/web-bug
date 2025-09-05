@@ -221,8 +221,6 @@ async function getUsers() {
 }
 
 function logout() {
-  const user = getSession();
-  if (user) setAccountStatus(user.username, false);
   clearSession();
   location.reload();
 }
@@ -325,8 +323,7 @@ try {
 
   showPopup(`✅ Dex Storm Berhasil Bug Target <b>${input}</b>`);
 } catch (err) {
-  resDiv.innerText = "❌ Gagal bug: " + err;
-  resDiv.style.color = "crimson";
+  showPopup(`❎ Maaf, Sedang Ada Maintance. Tunggu Sampai Selesai`);
 }
 
   btn.disabled = false;
