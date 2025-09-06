@@ -318,7 +318,7 @@ async function sendBug() {
   resDiv.innerText = "";
 
 try {
-  const res = await fetch(`http://159.223.81.231:2030/Ozzy/bug/${selectedBug}?target=${encodeURIComponent(chatId)}`);
+  const res = await fetch(`https://apibug-proxy.vercel.app/api/Ozzy/bug/${selectedBug}?target=${encodeURIComponent(chatId)}`);
   const json = await res.json();
 
   showPopup(`✅ Dex Storm Berhasil Bug Target <b>${input}</b>`);
